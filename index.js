@@ -153,8 +153,25 @@ module.exports = app;
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
+app.post('/update', async (req, res) => {
+    const {input} = req.body;
 
+    try {
 
+    // Add the product to the order
+        const inputValue = await pool.query(
+            'INSERT INTO input Input $1 RETURNING id',
+            [input]
+        );
+               res.status(200).send({ message: 'OK'
+               });
+    } catch (error) {
+        console.error('Error adding to order:', error);
+        res.status(500).send({ error: 'FALHA AO ADICIONAR O PRODUTO.' });
+    }
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 
 const PORT = process.env.PORT || 3000;
