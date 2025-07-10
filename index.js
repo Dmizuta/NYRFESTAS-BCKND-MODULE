@@ -154,20 +154,20 @@ module.exports = app;
 
 /////////////////////////////////////////////////////////////////////////////////////////////
 app.post('/update', async (req, res) => {
-    const {input} = req.body;
+    const {input1, input2, input3} = req.body;
 
 
-    console.log('Dado recebido do frontend:', input);
+    console.log('Dado recebido do frontend:', input1, input2, input3);
 
     try {
 
     
 
-        const result = await pool.query(
-  'INSERT INTO "Data" (input) VALUES ($1) RETURNING id',
-  [input]
+     
+const result = await pool.query(
+  'INSERT INTO "Data" (input1, input2, input3) VALUES ($1, $2, $3) RETURNING id',
+  [input1, input2, input3]
 );
-
                res.status(200).send({ message: 'OK'
                });
     } catch (error) {
