@@ -12,8 +12,15 @@ const { Pool } = require('pg'); // PostgreSQL client for database connection
 
 const app = express();
 app.use(express.json());
-app.use(cors()); // Allows any origin to access the API
+//app.use(cors()); // Allows any origin to access the API
 
+
+
+app.use(cors({
+  origin: ['https://dmizuta.github.io'], // <- your GitHub frontend
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type']
+}));
 
 
 
