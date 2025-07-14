@@ -12,15 +12,15 @@ const { Pool } = require('pg'); // PostgreSQL client for database connection
 
 const app = express();
 app.use(express.json());
-//app.use(cors()); // Allows any origin to access the API
+app.use(cors()); // Allows any origin to access the API
 
 
 
-app.use(cors({
+/*app.use(cors({
   origin: ['https://dmizuta.github.io'], // <- your GitHub frontend
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
-}));
+}));*/
 
 
 
@@ -54,8 +54,18 @@ app.get('/test-db-connection', async (req, res) => {
     }
 });
 
+/////////////////////////////////////////////////////////////////
 
-
+app.delete('/delete/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        await pool.query('DELETE FROM "Data" WHERE id = $1', [id]);
+        res.status(200).json({ message: 'Row deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting row:', error);
+        res.status(500).json({ error: 'Failed to delete row' });
+    }
+});
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
