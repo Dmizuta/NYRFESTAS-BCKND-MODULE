@@ -69,7 +69,7 @@ app.delete('/delete/:id', async (req, res) => {
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////
-app.post('/update', async (req, res) => {
+app.post('/create', async (req, res) => {
     const {input1, input2, input3} = req.body;
 
 
@@ -102,6 +102,25 @@ app.get('/data', async (req, res) => {
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 
+app.patch('/update/:id', async (req, res) => {
+    const { id } = req.params;
+    const { input1, input2, input3 } = req.body;
+
+    try {
+        await pool.query(
+            `UPDATE "Data"
+             SET input1 = $1, input2 = $2, input3 = $3
+             WHERE id = $4`,
+            [input1, input2, input3, id]
+        );
+        res.status(200).json({ message: 'DADOS ATUALIZADOS COM SUCESSO!' });
+    } catch (error) {
+        console.error('Erro ao atualizar:', error);
+        res.status(500).json({ error: 'FALHA AO ATUALIZAR.' });
+    }
+});
+ 
+///////////////////////////////////////////////////////
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
